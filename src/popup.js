@@ -18,13 +18,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function addSiteToList(site) {
         const li = document.createElement('li');
-        li.textContent = site;
+        const siteText = document.createElement('span');
+        siteText.textContent = site;
+        siteText.className = 'site-text';
         const deleteBtn = document.createElement('button');
         deleteBtn.textContent = 'x';
         deleteBtn.className = 'delete-btn';
         deleteBtn.addEventListener('click', function() {
             siteList.removeChild(li);
         });
+        li.appendChild(siteText);
         li.appendChild(deleteBtn);
         siteList.appendChild(li);
     }
