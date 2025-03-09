@@ -4,7 +4,7 @@
 cyoa 중 score 부분에 번역을 방지하는 코드를 넣어 크롬 번역을 돌린 상태에서도 score가 업데이트 되도록 합니다.
 
 ## 설치 방법
-1. []()의 zip을 다운로드하고 압축을 해제한다.
+1. [Release](https://https://github.com/kesa0v0/NoTranslateScore/releases/latest)의 zip을 다운로드하고 압축을 해제한다.
 2. 크롬 주소창에 [chrome://extensions](chrome://extensions)를 입력한다.
 3. 오른쪽 위 개발자 모드를 활성화 한다.
 4. 압축 해제된 확장 프로그램을 로드합니다. 를 클릭한다.
