@@ -1,12 +1,23 @@
-const observer = new MutationObserver(() => {
-    document.querySelectorAll('font').forEach((fontElement) => {
-        const parent = fontElement.parentNode;
-        while (fontElement.firstChild) {
-            parent.insertBefore(fontElement.firstChild, fontElement);
-        }
-        parent.removeChild(fontElement);
-        parent.setAttribute('translate', 'no');
+function setTranslateNo(element) {
+    element.setAttribute('translate', 'no');
+    element.querySelectorAll('div').forEach(function(child) {
+        setTranslateNo(child);
     });
-});
+}
 
-observer.observe(document.body, { childList: true, subtree: true });
+function waitForElement(selector, callback) {
+    const element = document.querySelector(selector);
+    if (element) {
+        console.log('Element found:', element);
+        callback(element);
+    } else {
+        setTimeout(function() {
+            console.log('Waiting for element:', selector);
+            waitForElement(selector, callback);
+        }, 100);
+    }
+}
+
+waitForElement('div.v-bottom-navigation', function(element) {
+    setTranslateNo(element);
+});

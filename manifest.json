@@ -1,10 +1,11 @@
 {
   "manifest_version": 3,
-  "name": "Chrome 번역 태그 제거기",
+  "name": "cyoa score 번역 방지",
   "version": "1.0",
-  "description": "Chrome 번역 기능이 추가하는 <font> 태그를 자동으로 제거합니다.",
+  "description": "cyoa 중 score 부분에 번역을 방지하는 코드를 넣어 크롬 번역을 돌린 상태에서도 score가 업데이트 되도록 합니다.",
   "permissions": [
-    "scripting"
+    "scripting",
+    "activeTab"
   ],
   "host_permissions": [
     "<all_urls>"
