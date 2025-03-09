@@ -5,12 +5,14 @@
   "description": "cyoa 중 score 부분에 번역을 방지하는 코드를 넣어 크롬 번역을 돌린 상태에서도 score가 업데이트 되도록 합니다.",
   "permissions": [
     "scripting",
-    "activeTab"
+    "activeTab",
+    "storage"
   ],
   "host_permissions": [
     "<all_urls>"
   ],
   "action": {
+    "default_popup": "src/popup.html",
     "default_icon": {
       "16": "images/icon-16.png",
       "32": "images/icon-32.png",

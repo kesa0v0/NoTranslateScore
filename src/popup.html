@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>사이트 설정</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            width: 300px;
+            padding: 10px;
+        }
+        input, button {
+            width: 100%;
+            margin: 5px 0;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin: 5px 0;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .delete-btn {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            color: #ff0000;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+<h1>사이트 설정</h1>
+<form id="siteForm">
+    <label for="site">사이트 URL 패턴:</label><br>
+    <input type="text" id="site" name="site" placeholder="*.neocities.org"><br>
+    <button type="submit">추가</button>
+</form>
+<ul id="siteList"></ul>
+<script src="popup.js"></script>
+</body>
+</html>
