@@ -1,34 +1,62 @@
 (() => {
     console.log("[Remove Font Tag] 확장 프로그램 실행됨!");
 
-    const removeFontTags = (node) => {
+    const removeAllFontTags = (node) => {
         let fontTags = node.querySelectorAll("font");
-        while (fontTags.length > 0) { // 모든 <font> 태그가 사라질 때까지 반복
-            fontTags.forEach(font => {
-                console.log("[Remove Font Tag] 감지됨:", font);
-                font.replaceWith(...font.childNodes); // <font> 태그 제거하고 내부 요소 유지
-            });
-            fontTags = node.querySelectorAll("font"); // 다시 <font> 태그가 있는지 확인
+
+        fontTags.forEach(font => {
+            console.log("[Remove Font Tag] 감지됨:", font);
+            while (font.firstChild) {
+                font.parentNode.insertBefore(font.firstChild, font);
+            }
+            font.remove();
+        });
+
+        // 재귀적으로 다시 호출하여 중첩된 <font> 태그 제거
+        if (node.querySelector("font")) {
+            removeAllFontTags(node);
         }
     };
 
+    let timeoutId = null; // 중복 실행 방지를 위한 타이머
+
     const observer = new MutationObserver(mutationsList => {
-        mutationsList.forEach(mutation => {
-            mutation.addedNodes.forEach(node => {
-                // 요소(Element)인지 확인하고 <font> 태그 제거 실행
-                if (node.nodeType === 1) {
-                    removeFontTags(node);
+        clearTimeout(timeoutId); // 기존 실행 예약된 작업 취소
+
+        timeoutId = setTimeout(() => {
+
+            console.log(mutationsList);
+
+            mutationsList.forEach(mutation => {
+                // 새로운 노드가 추가된 경우
+                mutation.addedNodes.forEach(node => {
+                    if (node.nodeType === Node.ELEMENT_NODE) {
+                        console.log("[Remove Font Tag] 추가된 노드:", node);
+                        removeAllFontTags(node);
+                    }
+                });
+
+                // 텍스트 변경 시 부모 요소 검사
+                if (mutation.type === "characterData" && mutation.target.parentElement) {
+                    console.log("[Remove Font Tag] 텍스트 변경됨:", mutation.target);
+                    removeAllFontTags(mutation.target.parentElement);
+                }
+
+                // 스타일 변경 시에도 부모 요소 검사
+                if (mutation.type === "attributes" && mutation.target) {
+                    console.log("[Remove Font Tag] 스타일 변경됨:", mutation.target);
+                    removeAllFontTags(mutation.target);
                 }
             });
-
-            // 텍스트 노드가 변경되었을 때도 감지하여 부모 노드 검사
-            if (mutation.type === "characterData" && mutation.target.parentElement) {
-                removeFontTags(mutation.target.parentElement);
-            }
-        });
+        }, 50); // 50ms 대기 후 실행
     });
 
-    // 문서 전체에서 감지 (subtree: true로 모든 하위 요소 포함)
-    observer.observe(document.body, { childList: true, subtree: true, characterData: true });
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true,
+        characterData: true,
+        attributes: true, // 스타일 변경도 감지
+        attributeFilter: ["style"] // 스타일이 변경될 때만 감지
+    });
 
 })();
